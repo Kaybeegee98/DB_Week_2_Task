@@ -95,3 +95,29 @@ VALUES
     (10004, 'Nerville Wrestlemania Club', 2019, 'Summer', 'U18', 4, '20190110'),
     (10005, 'Sunnyhill Hockey Club', 2018, 'Winter', 'U18', 2, '20180610'),
     (10002, 'Eastside Rugby Club', 2018, 'Winter', 'U14', 3, '20180610');
+
+
+SELECT P.PlayerID, P.Fname, P.Lname, P.Phone, C.ClubName, C.ContactName, T.SeasonYear, T.AgeGroup, T.TeamNumber
+FROM CLUB C 
+INNER JOIN TEAMENTRY T
+ON C.ClubName = T. ClubName
+INNER JOIN PLAYERREGISTRATION PR
+ON T.AgeGroup = PR.AgeGroup 
+and T.TeamNumber = PR.TeamNumber
+and T.SeasonYear = PR.SeasonYear
+and T.SeasonName = PR.SeasonName
+and T.ClubName = PR.ClubName
+INNER JOIN PLAYER P
+ON PR.PlayerID = P.PlayerID
+ORDER BY PlayerID ASC
+
+SELECT SeasonYear, AgeGroup, COUNT(PlayerID) AS 'NUMBER OF PLAYERS:'
+FROM PLAYERREGISTRATION
+GROUP BY AgeGroup, SeasonYear
+ORDER BY SeasonYear, AgeGroup ASC 
+
+SELECT *
+FROM PLAYER
+WHERE PlayerID IN (SELECT PlayerID
+                FROM PLAYERREGISTRATION
+                WHERE SeasonName = 'Summer')
